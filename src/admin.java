@@ -15,6 +15,7 @@ public class admin {
     private JLabel texto;
     private JButton insertar;
     public JPanel mainPanel;
+    private boolean visible;
 
     public admin() {
         // Inicialización de JComboBox con opciones
@@ -106,5 +107,9 @@ public class admin {
                 }
             }
         });
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

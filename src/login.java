@@ -1,4 +1,4 @@
-import clases.DatabaseConnection;
+import clases.ConexionBDD;
 import clases.Usuario;
 
 import javax.swing.*;
@@ -23,6 +23,14 @@ public class login extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("SISTEMA DE BIBLIOTECA");
+                JFrame frame = new JFrame("Login");
+                frame.setContentPane(new preferencias().mainPanel);  // Asegúrate de que 'Login' sea el nombre correcto de la clase.
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setSize(500, 500);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
                 comboBox1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -34,9 +42,9 @@ public class login extends JFrame {
                         if (user != null) {
                             if (user.getRole().equals("Usuario")) {
                                 new preferencias().setVisible(true);
-                            } /*else if (user.getRole().equals("Admin")) {
-                                new actividad().setVisible(true);
-                            }*/
+                            } else if (user.getRole().equals("Admin")) {
+                                new admin().setVisible(true);
+                            }
                             dispose();
                         } else {
                             JOptionPane.showMessageDialog(login.this, "Credenciales incorrectas.");
@@ -50,7 +58,7 @@ public class login extends JFrame {
     }
     private Usuario authenticate(String username, String password, String role) {
         String query = "SELECT * FROM usuarios WHERE username = ? AND password = ? AND role = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = ConexionBDD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, username);
